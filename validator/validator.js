@@ -1,11 +1,11 @@
 const {LinValidator, Rule} = require('../core/lin-validator')
-
+const {validatorType, loginType} = require('../lib/enum')
 const User = require('../models/user')
 class PositiveIntegerValidator extends LinValidator{
     constructor() {
         super();
         this.id = [
-            new Rule('isInt', '需要是正整数',{min: 1})
+            new Rule( type.IS_INT, '需要是正整数',{min: 1})
         ]
     }
 }
@@ -13,18 +13,18 @@ class RegisterValidator extends LinValidator{
     constructor() {
         super();
         this.email = [
-            new Rule('isEmail', '不符合Email规范'),
+            new Rule(validatorType.IS_EMAIL, '不符合Email规范'),
         ]
         this.password1 = [
-            new Rule('isLength', '密码至少6个字符，最多32个字符', {
+            new Rule(validatorType.IS_LENGTH, '密码至少6个字符，最多32个字符', {
                 min: 6,
                 max: 32
             }),
-            new Rule('matches','密码不符合规范','^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]')
+            new Rule(validatorType.MATCHES,'密码不符合规范','^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]')
         ]
         this.password2 = this.password1
         this.nickname = [
-            new Rule('isLength', '昵称不符合长度规范',{
+            new Rule(validatorType.IS_LENGTH, '昵称不符合长度规范',{
                 min: 4,
                 max: 32
             })
@@ -49,8 +49,33 @@ class RegisterValidator extends LinValidator{
         }
     }
 }
+class TokenValidator extends LinValidator{
+    constructor() {
+        super();
+        this.account = [
+            new Rule(validatorType.IS_LENGTH, '不符合账号规则',{
+                min: 4,
+                max: 32
+            })
+        ]
+        this.secret = [
+            new Rule(validatorType.IS_OPTIONAL),
+            new Rule(validatorType.IS_LENGTH, '至少6个字符',{
+                min: 6,
+                max: 128
+            })
+        ]
+    }
+    validateType(vals){
+        const type = vals.body.type
+        if(!loginType.isThisType(type)){
+            throw new Error('登录类型不合法')
+        }
+    }
+}
 
 module.exports = {
     PositiveIntegerValidator,
-    RegisterValidator
+    RegisterValidator,
+    TokenValidator
 }
