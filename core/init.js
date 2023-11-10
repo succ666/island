@@ -22,7 +22,7 @@ class InitManager {
         }
     }
     static loadHttpException(){
-        const errorDirectory = `${process.cwd()}/validator/validator`
+        const errorDirectory = `${process.cwd()}/core/http-exception.js`
         const error = require(errorDirectory)
         global.error = error
     }

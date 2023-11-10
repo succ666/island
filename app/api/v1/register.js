@@ -12,6 +12,7 @@ router.post('/register', async (ctx, next) => {
         nickname: v.get('body.nickname')
     }
     const r = await User.create(user)
+    throw new global.error.Success()
 
 })
 
