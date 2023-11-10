@@ -12,7 +12,7 @@ const sequelize = new Sequelize(dbName, user, password, {
     dialect: 'mysql',
     host,
     port,
-    logging: true,
+    // logging: true,
     timezone: '+08:00',
     define: {
         timestamps: true,
@@ -26,7 +26,7 @@ const sequelize = new Sequelize(dbName, user, password, {
 })
 
 sequelize.sync({
-    force: true
+    force: false
 })
 
 module.exports = {

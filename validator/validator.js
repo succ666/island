@@ -1,5 +1,6 @@
 const {LinValidator, Rule} = require('../core/lin-validator')
 
+const User = require('../models/user')
 class PositiveIntegerValidator extends LinValidator{
     constructor() {
         super();
@@ -12,7 +13,7 @@ class RegisterValidator extends LinValidator{
     constructor() {
         super();
         this.email = [
-            new Rule('isEmail', '不符合Email规范')
+            new Rule('isEmail', '不符合Email规范'),
         ]
         this.password1 = [
             new Rule('isLength', '密码至少6个字符，最多32个字符', {
@@ -35,6 +36,16 @@ class RegisterValidator extends LinValidator{
         const psw2 = vals.body.password2
         if(psw1 !== psw2){
             throw new Error('两个密码必须相同')
+        }
+    }
+
+    async validateEmail(vals){
+        const email = vals.body.email
+         const v = await User.findOne({
+            where: {email}
+        })
+        if(v){
+            throw new Error('此邮箱已经被注册了！')
         }
     }
 }

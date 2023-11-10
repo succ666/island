@@ -3,10 +3,16 @@ const router = new Router({
     prefix: '/v1'
 })
 const { RegisterValidator } = require('../../../validator/validator')
+const User = require('../../../models/user')
+router.post('/register', async (ctx, next) => {
+    const v = await new RegisterValidator().validate(ctx)
+    const user = {
+        email: v.get('body.email'),
+        password: v.get('body.password2'),
+        nickname: v.get('body.nickname')
+    }
+    const r = await User.create(user)
 
-router.post('/register', (ctx, next) => {
-    const v = new RegisterValidator().validate(ctx)
-    ctx.body = 'success'
 })
 
 module.exports = router
