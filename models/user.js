@@ -14,6 +14,7 @@ class User extends Model{
         if(!correct){
             throw new global.error.AuthFailed('密码不正确')
         }
+        return user
     }
 
 
