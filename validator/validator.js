@@ -53,6 +53,7 @@ class TokenValidator extends LinValidator{
     constructor() {
         super();
         this.account = [
+            new Rule(validatorType.IS_OPTIONAL),
             new Rule(validatorType.IS_LENGTH, '不符合账号规则',{
                 min: 4,
                 max: 32
