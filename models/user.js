@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken")
 const {sequelize} = require('../core/db')
 const { Model, DataTypes } = require('sequelize')
 
@@ -28,6 +29,15 @@ class User extends Model{
         const user = await User.create({ openid })
         return user
    }
+
+    static async verifyToken(token){
+       try{
+           await jwt.verify(token, global.config.security.secretKey)
+           return true
+       }catch (error){
+           return false
+       }
+    }
 }
 
 User.init({

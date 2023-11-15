@@ -4,7 +4,7 @@ const {generateToken} = require('../../../core/util')
 const router = new Router({
     prefix: '/v1'
 })
-const {TokenValidator} = require('../../../validator/validator')
+const {TokenValidator, NotEmptyValidate} = require('../../../validator/validator')
 const User = require('../../../models/user')
 const {WXManager} = require('../../../services/wx')
 router.post('/', async (ctx, next) => {
@@ -24,6 +24,11 @@ router.post('/', async (ctx, next) => {
     ctx.body = {
         token
     }
+})
+
+router.post('/validate/token', async (ctx, next) => {
+    const v = await new NotEmptyValidate().validate(ctx)
+    ctx.body = await User.verifyToken(v.get('body.token'))
 })
 
 async function emailLogin(account, secret){

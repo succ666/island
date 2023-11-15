@@ -12,9 +12,7 @@ class WXManager{
             throw new global.error.Forbbiden(`errcode:${errcode},errmsg: ${errmsg}`)
         }
         let user = await User.getUserByOpenid(openid)
-        if(user){
-            throw new global.error.Forbbiden(`openid已存在`)
-        }else{
+        if(!user){
             user = await User.registerByOpenid(openid)
         }
         return generateToken(user.id, Auth.USER)
