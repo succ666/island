@@ -26,9 +26,12 @@ router.post('/', async (ctx, next) => {
     }
 })
 
-router.post('/validate/token', async (ctx, next) => {
+router.post('/verify', async (ctx, next) => {
     const v = await new NotEmptyValidate().validate(ctx)
-    ctx.body = await User.verifyToken(v.get('body.token'))
+    const result = await User.verifyToken(v.get('body.token'))
+    ctx.body = {
+        is_valid: result
+    }
 })
 
 async function emailLogin(account, secret){

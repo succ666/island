@@ -5,7 +5,7 @@ class PositiveIntegerValidator extends LinValidator{
     constructor() {
         super();
         this.id = [
-            new Rule( type.IS_INT, '需要是正整数',{min: 1})
+            new Rule( validatorType.IS_INT, '需要是正整数',{min: 1})
         ]
     }
 }
@@ -84,9 +84,23 @@ class NotEmptyValidate extends LinValidator{
     }
 }
 
+class LikeValidator extends LinValidator{
+    constructor() {
+        super();
+        this.type = [
+            new Rule(validatorType.IS_INT,'art类型不能为空')
+        ]
+        this.artId = [
+            new Rule(validatorType.IS_INT,'artId不能为空')
+        ]
+    }
+}
+
+
 module.exports = {
     PositiveIntegerValidator,
     RegisterValidator,
     TokenValidator,
-    NotEmptyValidate
+    NotEmptyValidate,
+    LikeValidator
 }
