@@ -21,7 +21,14 @@ const sequelize = new Sequelize(dbName, user, password, {
         updatedAt: 'updated_at',
         deletedAt: 'deleted_at',
         underscored: true,
-        freezeTableName: true
+        freezeTableName: true,
+        scopes: {
+            bh: {
+                attributes: {
+                    exclude: ['updated_at','deleted_at','created_at']
+                }
+            }
+        }
     }
 })
 
