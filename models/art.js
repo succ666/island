@@ -5,13 +5,13 @@ class Art{
             let art = null;
             switch(type) {
                 case 100:
-                    art = await Movie.scope('bh').findOne(options)
+                    art = await Movie.findOne(options)
                     break;
                 case 200:
-                    art = await Music.scope('bh').findOne(options)
+                    art = await Music.findOne(options)
                     break;
                 case 300:
-                    art = await Sentence.scope('bh').findOne(options)
+                    art = await Sentence.findOne(options)
                     break;
                 default:
                     break;

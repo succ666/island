@@ -34,8 +34,10 @@ class Favor extends Model{
         }
         const t = await sequelize.transaction();
         try{
-            await favor.destroy({
-                force: true,
+            const a = await Favor.destroy({
+                where:{
+                  id: favor.id
+                },
                 transaction: t
             })
             const art = await Art.getData(artId, type)

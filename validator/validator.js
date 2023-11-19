@@ -96,11 +96,23 @@ class LikeValidator extends LinValidator{
     }
 }
 
+class DetailValidator extends LinValidator{
+    constructor() {
+        super();
+        this.type = [
+            new Rule(validatorType.IS_INT,'art类型不能为空')
+        ]
+        this.id = [
+            new Rule(validatorType.IS_INT,'id不能为空')
+        ]
+    }
+}
 
 module.exports = {
     PositiveIntegerValidator,
     RegisterValidator,
     TokenValidator,
     NotEmptyValidate,
-    LikeValidator
+    LikeValidator,
+    DetailValidator
 }
