@@ -23,8 +23,27 @@ class Favor extends Model{
             await t.rollback();
         }
     }
-    static async dislike(){
-
+    static async dislike(artId, type, uid){
+        const favor = await Favor.findOne({
+            where: {
+                artId, type, uid
+            }
+        })
+        if(!favor){
+            throw new global.error.DislikeError()
+        }
+        const t = await sequelize.transaction();
+        try{
+            await favor.destroy({
+                force: true,
+                transaction: t
+            })
+            const art = await Art.getData(artId, type)
+            await art.decrement('fav_nums',{by: 1, transaction: t})
+            await t.commit();
+        }catch (e){
+            await t.rollback();
+        }
     }
 
 }

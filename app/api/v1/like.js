@@ -13,4 +13,10 @@ router.post('/like', new Auth().m, async (ctx, next) => {
     throw new global.error.Success()
 })
 
+router.post('/dislike', new Auth().m, async (ctx, next) => {
+    const v = await new LikeValidator().validate(ctx)
+    await Favor.dislike(v.get('body.artId'),v.get('body.type'),ctx.auth.uid)
+    throw new global.error.Success()
+})
+
 module.exports = router
